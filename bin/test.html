@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>Zan WebSocket Test</title>
+<script language="javascript"type="text/javascript">
+    var url ="ws://127.0.0.1:8030/";
+    var output;
+
+    function main() {
+        output = document.getElementById("output");
+        runTest();
+    }
+
+    function runTest() {
+        websocket = new WebSocket(url);
+        websocket.onopen = function (evt) {
+            print("onOpen");
+            var msg = '{"path":"\/index\/index\/index","data":"Hello Zan WebSocket"}';
+            print("SENT: " + msg);
+            websocket.send(msg);
+        };
+        websocket.onclose = function (evt) {
+            print("onClose");
+        };
+        websocket.onmessage = function (evt) {
+            print('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
+            websocket.close();
+        };
+        websocket.onerror = function (evt) {
+            print('<span style="color: red;">ERROR occured</span> ');
+        };
+    }
+
+    function print(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+    }
+
+    window.addEventListener("load", main, false);
+</script>
+<div id="output"></div>
+</html>

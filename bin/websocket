@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+/** @var \Zan\Framework\Foundation\Application $app */
+$app = require_once __DIR__.'/../init/app.php';
+
+$server = $app->createWebSocketServer();
+
+$server->setOpenCallback(function(Zan\Framework\Network\Http\Request\Request $request, $fd) {
+    echo "client-$fd connect\n";
+});
+
+$server->setCloseCallback(function($fd) {
+    echo "client-$fd close\n";
+});
+$server->start();
+
